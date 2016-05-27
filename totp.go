@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	secret   = flag.String("secret", "AAAABBBBCCCCDDDD", "Secret key")
+	secret   = flag.String("secret", "", "Secret key")
 	isBase32 = flag.Bool("base32", true, "If true, the secret is interpreted as a Base32 string")
 	length   = flag.Uint("length", otp.DefaultLength, "OTP length")
 	period   = flag.Uint("period", otp.DefaultPeriod, "Period in seconds")
@@ -19,6 +19,10 @@ var (
 
 func main() {
 	flag.Parse()
+
+	if secret == "" {
+		log.Fatal("Must provide a secret.")
+	}
 
 	key := *secret
 	if !*isBase32 {
